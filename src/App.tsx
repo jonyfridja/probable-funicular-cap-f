@@ -1,9 +1,13 @@
 import React from 'react';
+import TransactionPage from './pages/TransactionPage/TransactionPage';
 
 function App() {
+  
   return (
     <div className="App">
-      hello world
+      <TransactionPage />
+      
+
     </div>
   );
 }
