@@ -5,6 +5,8 @@ import { ITransaction } from '../../interfaces'
 import { transactionsService } from '../../services/TransactionsService'
 import TransactionsList from './TransactionsList/TransactionsList'
 
+import './TransactionPage.scss';
+import clsx from 'clsx'
 interface Props {
 
 }
@@ -26,7 +28,7 @@ export default function TransactionPage({ }: Props): ReactElement {
     }
 
     return (
-        <div>
+        <div className={clsx('transactions-page', 'flex', 'space-around')}>
             <TransactionsList transactions={transactionsFromUser}><h1>Paying</h1></TransactionsList>
             <TransactionsList transactions={transactionsToUser}><h1>Receiving</h1></TransactionsList>
         </div>
