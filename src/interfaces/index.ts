@@ -1,6 +1,6 @@
 export interface ITransaction {
     id?: string;
-    tradingParty: string;
+    tradingparty: string;
     counterparty: string;
     amount: number;
 }
