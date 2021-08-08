@@ -2,4 +2,12 @@
     padding-top: 40px;
     max-width: 960px;
     margin: 0 auto;
+    .actions {
+        margin-top: 100px;
+        display: flex;
+        justify-content: center;
+        *:not(:last-child) {
+            margin-right: 20px;
+        }
+    }
 }

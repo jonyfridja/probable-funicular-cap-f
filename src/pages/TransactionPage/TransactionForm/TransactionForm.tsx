@@ -20,7 +20,7 @@ export default function TransactionForm({ onSubmit }: Props): ReactElement {
             </label>
             <label>
                 How much?
-                <input type="number" onChange={({ target }) => setAmount(+target.value)} value={amount} />
+                <input type="number" min={1} onChange={({ target }) => setAmount(+target.value)} value={amount} />
             </label>
             <button>Add</button>
         </form>

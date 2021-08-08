@@ -27,8 +27,8 @@ export default function TransactionPage({ }: Props): ReactElement {
 
     const initTransactions = async () => {
         const allTransactions = await transactionsService.get()
-        const transToUser = allTransactions.filter(t => t.tradingParty === USER_NAME);
-        const transactionsFromUser = allTransactions.filter(t => t.tradingParty !== USER_NAME);
+        const transToUser = allTransactions.filter(t => t.tradingparty === USER_NAME);
+        const transactionsFromUser = allTransactions.filter(t => t.tradingparty !== USER_NAME);
 
         setAllTransactions(allTransactions)
         setTransactionsToUser(transToUser);
@@ -46,12 +46,12 @@ export default function TransactionPage({ }: Props): ReactElement {
     const onNewFormSubmit = async (transaction: Pick<ITransaction, "counterparty" | "amount">) => {
         let newTransaction: ITransaction = {
             ...transaction,
-            tradingParty: USER_NAME
+            tradingparty: USER_NAME
         }
         setLoadingNewTransaction(true);
         try {
             const serverResult = await transactionsService.create(newTransaction);
-            if (serverResult.tradingParty === USER_NAME) setTransactionsFromUser([...transactionsFromUser, serverResult])
+            if (serverResult.tradingparty === USER_NAME) setTransactionsFromUser([...transactionsFromUser, serverResult])
             else setTransactionsToUser([...transactionsToUser, serverResult])
         } catch (err) {
         } finally {
@@ -59,14 +59,16 @@ export default function TransactionPage({ }: Props): ReactElement {
             setShowAddTransactionForm(false);
         }
     }
-
+    let a = transactionsFromUser.map(t => ({ party: t.counterparty, amount: t.amount, id: t.id }))
 
     return (
         <div className={clsx('transactions-page',)}>
-            <section className={clsx('flex', 'space-around')}>
-                <TransactionsList transactions={transactionsFromUser}><h1>Paying</h1></TransactionsList>
-                <TransactionsList transactions={transactionsToUser}><h1>Receiving</h1></TransactionsList>
-                <div className="flex">
+            <section className={clsx('flex', 'column')}>
+                <div className={clsx('flex', 'space-around')}>
+                    <TransactionsList transactions={transactionsFromUser.map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))}><h1>Paying</h1></TransactionsList>
+                    <TransactionsList transactions={transactionsFromUser.map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))}><h1>Receiving</h1></TransactionsList>
+                </div>
+                <div className={clsx('actions')}>
                     <button onClick={onNewTransactionClick}>Add a new Transaction</button>
                     <button onClick={onCompressClick}>Compress</button>
                 </div>
