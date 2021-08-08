@@ -1,7 +1,6 @@
 import clsx from 'clsx'
 import React, { ReactElement } from 'react'
-import { ITransaction } from '../../../interfaces'
-
+import './TransactionPreview.scss';
 interface Props {
     party: string;
     amount: number;

@@ -1,0 +1,7 @@
+.transaction-preview {
+    padding: 5px 5px;
+    &:hover {
+        transition: 0.2s background-color;
+        background-color: darken(#f9f9f9, 10%);
+    }
+}

@@ -3,9 +3,10 @@ import { ITransaction } from '../../../interfaces';
 
 interface Props {
     onSubmit: (transaction: Pick<ITransaction, "counterparty" | "amount">) => any;
+    disabled?: boolean
 }
 
-export default function TransactionForm({ onSubmit }: Props): ReactElement {
+export default function TransactionForm({ onSubmit, disabled }: Props): ReactElement {
     const [counterparty, setCounterParty] = useState<string>('');
     const [amount, setAmount] = useState(0)
 
@@ -22,7 +23,7 @@ export default function TransactionForm({ onSubmit }: Props): ReactElement {
                 How much?
                 <input type="number" min={1} onChange={({ target }) => setAmount(+target.value)} value={amount} />
             </label>
-            <button>Add</button>
+            <button disabled={disabled}>Add</button>
         </form>
     )
 }

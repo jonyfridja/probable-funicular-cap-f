@@ -9,6 +9,7 @@ import './TransactionPage.scss';
 import clsx from 'clsx'
 import TransactionForm from './TransactionForm/TransactionForm'
 import LoadingIcon from '../../components/LoadingIcon'
+import Button from '../../components/Button'
 interface Props {
 
 }
@@ -59,7 +60,6 @@ export default function TransactionPage({ }: Props): ReactElement {
             setShowAddTransactionForm(false);
         }
     }
-    let a = transactionsFromUser.map(t => ({ party: t.counterparty, amount: t.amount, id: t.id }))
 
     return (
         <div className={clsx('transactions-page',)}>
@@ -69,13 +69,13 @@ export default function TransactionPage({ }: Props): ReactElement {
                     <TransactionsList transactions={transactionsFromUser.map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))}><h1>Receiving</h1></TransactionsList>
                 </div>
                 <div className={clsx('actions')}>
-                    <button onClick={onNewTransactionClick}>Add a new Transaction</button>
-                    <button onClick={onCompressClick}>Compress</button>
+                    <Button onClick={onNewTransactionClick}>Add a new Transaction</Button>
+                    <Button onClick={onCompressClick}>Compress</Button>
                 </div>
             </section>
             <section>
                 {loadingNewTransaction && <LoadingIcon />}
-                {showAddTransactionForm && <TransactionForm onSubmit={onNewFormSubmit} />}
+                {showAddTransactionForm && <TransactionForm disabled={loadingNewTransaction} onSubmit={onNewFormSubmit} />}
             </section>
         </div>
     )
