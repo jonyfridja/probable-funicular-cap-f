@@ -1,4 +1,3 @@
-import { stringify } from "querystring";
 import { ITransaction } from "../interfaces";
 import { httpService } from "./HttpService";
 
