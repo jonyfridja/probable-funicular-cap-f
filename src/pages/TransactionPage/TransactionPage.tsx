@@ -10,6 +10,9 @@ import clsx from 'clsx'
 import TransactionForm from './TransactionForm/TransactionForm'
 import LoadingIcon from '../../components/LoadingIcon'
 import Button from '../../components/Button'
+import { CSVService } from '../../services/CSVService'
+
+import { saveAs } from 'file-saver';
 interface Props {
 
 }
@@ -58,8 +61,12 @@ export default function TransactionPage({ }: Props): ReactElement {
     }
 
     const onCompressClick: MouseEventHandler = async (ev) => {
-        const transactions = await transactionsService.compress(allTransactions);
-        setAllTransactions(transactions)
+        const compressed = transactionsService.compress(allTransactions);
+        console.log('compressed', compressed);
+        const csv = CSVService.jsonToCSV(compressed, ['tradingparty', 'counterparty', 'amount']) || ''
+
+        const csvFile = CSVService.CSVToFile(csv)
+        saveAs(csvFile)
     }
 
     const onNewFormSubmit = async (transaction: Pick<ITransaction, "counterparty" | "amount">) => {
