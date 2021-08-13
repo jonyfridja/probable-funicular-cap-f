@@ -1,0 +1,25 @@
+.transaction-form {
+    .modal-body {
+        // display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: absolute;
+        outline: none;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        /* Rectangle 27 */
+        padding: 50px 60px;
+        background-color: white;
+        border-radius: 4px;
+    }
+    .close-btn {
+        padding: 5px;
+        cursor: pointer;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        color: black;
+    }
+}
