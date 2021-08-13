@@ -8,7 +8,11 @@ class TransactionsService {
     create(transaction: ITransaction): Promise<ITransaction> {
         return httpService.post<ITransaction>('/transactions', transaction).then(res => res.data)
     }
+    compress(transactions: ITransaction[]) {
+        return httpService.post<ITransaction[]>('/transactions/compress', transactions).then(res => res.data)
+    }
 
 }
 
 export const transactionsService = new TransactionsService();
+

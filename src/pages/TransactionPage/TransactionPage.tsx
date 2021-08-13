@@ -15,9 +15,10 @@ interface Props {
 }
 
 export default function TransactionPage({ }: Props): ReactElement {
-    const [transactionsToUser, setTransactionsToUser] = useState<ITransaction[]>([])
-    const [transactionsFromUser, setTransactionsFromUser] = useState<ITransaction[]>([])
     const [allTransactions, setAllTransactions] = useState<ITransaction[]>([])
+
+    const [transactionsToUser, setTransactionsToUser] = useState<{ party: string, amount: number, id: string }[]>([])
+    const [transactionsFromUser, setTransactionsFromUser] = useState<{ party: string, amount: number, id: string }[]>([])
 
     const [showAddTransactionForm, setShowAddTransactionForm] = useState(false);
     const [loadingNewTransaction, setLoadingNewTransaction] = useState(false)
@@ -26,22 +27,28 @@ export default function TransactionPage({ }: Props): ReactElement {
         initTransactions()
     }, [])
 
-    const initTransactions = async () => {
-        const allTransactions = await transactionsService.get()
-        const transToUser = allTransactions.filter(t => t.tradingparty === USER_NAME);
-        const transactionsFromUser = allTransactions.filter(t => t.tradingparty !== USER_NAME);
+    const initDerrivedState = () => {
+        const transactionsFromUser = allTransactions.filter(t => t.tradingparty === USER_NAME).map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))
+        const transToUser = allTransactions.filter(t => t.tradingparty !== USER_NAME).map(t => ({ party: t.tradingparty, amount: t.amount, id: t.id! }))
 
-        setAllTransactions(allTransactions)
         setTransactionsToUser(transToUser);
         setTransactionsFromUser(transactionsFromUser);
     }
+
+    const initTransactions = async () => {
+        const allTransactions = await transactionsService.get()
+        setAllTransactions(allTransactions)
+    }
+
+    useEffect(initDerrivedState, [allTransactions]);
 
     const onNewTransactionClick: MouseEventHandler = (ev) => {
         setShowAddTransactionForm(true);
     }
 
     const onCompressClick: MouseEventHandler = async (ev) => {
-
+        const transactions = await transactionsService.compress(allTransactions);
+        setAllTransactions(transactions)
     }
 
     const onNewFormSubmit = async (transaction: Pick<ITransaction, "counterparty" | "amount">) => {
@@ -52,8 +59,7 @@ export default function TransactionPage({ }: Props): ReactElement {
         setLoadingNewTransaction(true);
         try {
             const serverResult = await transactionsService.create(newTransaction);
-            if (serverResult.tradingparty === USER_NAME) setTransactionsFromUser([...transactionsFromUser, serverResult])
-            else setTransactionsToUser([...transactionsToUser, serverResult])
+            setAllTransactions([...allTransactions, serverResult])
         } catch (err) {
         } finally {
             setLoadingNewTransaction(false);
@@ -65,8 +71,8 @@ export default function TransactionPage({ }: Props): ReactElement {
         <div className={clsx('transactions-page',)}>
             <section className={clsx('flex', 'column')}>
                 <div className={clsx('flex', 'space-around')}>
-                    <TransactionsList transactions={transactionsFromUser.map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))}><h1>Paying</h1></TransactionsList>
-                    <TransactionsList transactions={transactionsFromUser.map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))}><h1>Receiving</h1></TransactionsList>
+                    <TransactionsList transactions={transactionsFromUser}><h1>Paying</h1></TransactionsList>
+                    <TransactionsList transactions={transactionsToUser}><h1>Receiving</h1></TransactionsList>
                 </div>
                 <div className={clsx('actions')}>
                     <Button onClick={onNewTransactionClick}>Add a new Transaction</Button>
