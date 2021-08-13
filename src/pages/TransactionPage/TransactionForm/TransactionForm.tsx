@@ -13,15 +13,26 @@ export default function TransactionForm({ onSubmit, disabled, ...props }: Props)
     const [counterparty, setCounterParty] = useState<string>('');
     const [amount, setAmount] = useState(0)
 
+    const clearForm = () => {
+        setAmount(0);
+        setCounterParty('')
+    }
+    const onClose = () => {
+        clearForm()
+        props.onClose();
+    }
+    
+    
     return (
         <Modal open={props.isOpen}>
-            <OutsideAlerter onOutsideClicked={props.onClose}>
+            <OutsideAlerter onOutsideClicked={onClose}>
                 <div className="transaction-form">
                     <form className="modal-body" onSubmit={(ev) => {
                         ev.preventDefault();
-                        onSubmit({ counterparty, amount })
+                        onSubmit({ counterparty, amount });
+                        clearForm()
                     }}>
-                        <div className="close-btn" onClick={() => props.onClose()}>X</div>
+                        <div className="close-btn" onClick={() => onClose()}>X</div>
                         <label>
                             Recipient
                             <input type="text" onChange={({ target }) => setCounterParty(target.value)} value={counterparty} />
@@ -30,7 +41,7 @@ export default function TransactionForm({ onSubmit, disabled, ...props }: Props)
                             How much?
                             <input type="number" onChange={({ target }) => setAmount(+target.value)} value={amount} />
                         </label>
-                        <button disabled={disabled}>Add</button>
+                        <button className="app-button" disabled={disabled}>Add</button>
                     </form>
                 </div>
             </OutsideAlerter>
