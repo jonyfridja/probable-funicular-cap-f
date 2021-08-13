@@ -99,7 +99,7 @@ export default function TransactionPage({ }: Props): ReactElement {
             </section>
             <section>
                 {loadingNewTransaction && <LoadingIcon />}
-                <TransactionForm isOpen={showAddTransactionForm} disabled={loadingNewTransaction} onSubmit={onNewFormSubmit} />
+                <TransactionForm onClose={() => setShowAddTransactionForm(false)} isOpen={showAddTransactionForm} disabled={loadingNewTransaction} onSubmit={onNewFormSubmit} />
             </section>
         </div>
     )
