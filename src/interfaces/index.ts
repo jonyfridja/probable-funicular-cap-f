@@ -1,5 +1,5 @@
 export interface ITransaction {
-    id?: string;
+    _id?: string;
     tradingparty: string;
     counterparty: string;
     amount: number;

@@ -42,8 +42,8 @@ export default function TransactionPage({ }: Props): ReactElement {
             }
             return t
         })
-        const transactionsFromUser = organized.filter(t => t.amount > 0).map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))
-        const transToUser = organized.filter(t => t.amount < 0).map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))
+        const transactionsFromUser = organized.filter(t => t.amount > 0).map(t => ({ party: t.counterparty, amount: t.amount, id: t._id! }))
+        const transToUser = organized.filter(t => t.amount < 0).map(t => ({ party: t.counterparty, amount: t.amount, id: t._id! }))
 
         setTransactionsToUser(transToUser);
         setTransactionsFromUser(transactionsFromUser);
