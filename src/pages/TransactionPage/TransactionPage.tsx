@@ -28,8 +28,8 @@ export default function TransactionPage({ }: Props): ReactElement {
     }, [])
 
     const initDerrivedState = () => {
-        const transactionsFromUser = allTransactions.filter(t => t.tradingparty === USER_NAME).map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))
-        const transToUser = allTransactions.filter(t => t.tradingparty !== USER_NAME).map(t => ({ party: t.tradingparty, amount: t.amount, id: t.id! }))
+        const transactionsFromUser = allTransactions.filter(t => t.amount > 0).map(t => ({ party: t.counterparty, amount: t.amount, id: t.id! }))
+        const transToUser = allTransactions.filter(t => t.amount < 0).map(t => ({ party: t.tradingparty, amount: t.amount, id: t.id! }))
 
         setTransactionsToUser(transToUser);
         setTransactionsFromUser(transactionsFromUser);

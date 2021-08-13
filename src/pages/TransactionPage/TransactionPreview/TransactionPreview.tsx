@@ -9,7 +9,7 @@ interface Props {
 export default function TransactionPreview({ party, amount }: Props): ReactElement {
     return (
         <div className={clsx('transaction-preview', 'flex', 'space-between')}>
-            <span>{party} </span><span>{amount}</span>
+            <span>{party} </span><span>{Math.abs(amount)}</span>
         </div>
     )
 }
