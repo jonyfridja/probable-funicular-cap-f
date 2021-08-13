@@ -21,7 +21,7 @@ export default function TransactionForm({ onSubmit, disabled }: Props): ReactEle
             </label>
             <label>
                 How much?
-                <input type="number" min={1} onChange={({ target }) => setAmount(+target.value)} value={amount} />
+                <input type="number" onChange={({ target }) => setAmount(+target.value)} value={amount} />
             </label>
             <button disabled={disabled}>Add</button>
         </form>
